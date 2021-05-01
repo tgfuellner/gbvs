@@ -49,7 +49,7 @@ for img in args.images:
 
     imgNameWithoutExtension = os.path.splitext(imgName)[0]
 
-    oname = "{}_saliency.jpg".format(imgNameWithoutExtension)
+    oname = "{}_gbvs.jpg".format(imgNameWithoutExtension)
     cv2.imwrite(oname, saliency_map_gbvs)
 
     oname = "{}_ittikochneibur.jpg".format(imgNameWithoutExtension)
