@@ -4,6 +4,8 @@ from saliency_models import gbvs, ittikochneibur
 import cv2
 import time, os
 from matplotlib import pyplot as plt
+import pandas as pd
+import numpy as np
 
 import argparse
 
@@ -49,11 +51,17 @@ for img in args.images:
 
     imgNameWithoutExtension = os.path.splitext(imgName)[0]
 
-    oname = "{}_gbvs.jpg".format(imgNameWithoutExtension)
+    oname = "{}_gbvs.png".format(imgNameWithoutExtension)
     cv2.imwrite(oname, saliency_map_gbvs)
+    norm = np.interp(saliency_map_gbvs, (saliency_map_gbvs.min(), saliency_map_gbvs.max()), (0, 1))
+    df = pd.DataFrame(data=norm)
+    df.to_csv("{}_gbvs.csv".format(imgNameWithoutExtension), index=False, header=False)
 
-    oname = "{}_ittikochneibur.jpg".format(imgNameWithoutExtension)
+    oname = "{}_ittikochneibur.png".format(imgNameWithoutExtension)
     cv2.imwrite(oname, saliency_map_ikn)
+    norm = np.interp(saliency_map_ikn, (saliency_map_ikn.min(), saliency_map_ikn.max()), (0, 1))
+    df = pd.DataFrame(data=norm)
+    df.to_csv("{}_ittikochneibur.csv".format(imgNameWithoutExtension), index=False, header=False)
 
     if args.show:
         show(img, saliency_map_gbvs, saliency_map_ikn)
